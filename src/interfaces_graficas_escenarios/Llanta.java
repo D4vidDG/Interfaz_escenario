@@ -9,6 +9,10 @@ package interfaces_graficas_escenarios;
  *
  * @author Estudiante
  */
-public class Llanta {
+public class Llanta extends Objeto {
+
+    public Llanta(int x, int y) {
+        super(x, y);
+    }
     
 }

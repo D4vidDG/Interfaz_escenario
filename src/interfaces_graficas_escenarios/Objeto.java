@@ -26,6 +26,9 @@ public abstract class Objeto {
         this.y = y;
     }
     
-    public abstract void mover();
+    public void mover(int mov_x,int mov_y){
+        this.x=this.x+mov_x;
+        this.y=this.y+mov_y;
+    };
     
 }

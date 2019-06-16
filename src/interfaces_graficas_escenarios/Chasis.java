@@ -13,11 +13,5 @@ public class Chasis extends Objeto {
 
     public Chasis(int x, int y) {
         super(x, y);
-    }
-    public void mover() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    
+    }   
 }
