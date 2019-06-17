@@ -5,9 +5,14 @@
  */
 package interfaces_graficas_escenarios;
 
+import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.SVGPath;
+import javafx.scene.shape.Shape;
 
 public class Animacion extends AnimationTimer{
 private GraphicsContext lapiz;
@@ -16,20 +21,39 @@ private Carro carro;
  private int mov_y;
  private int size_x;
  private int size_y;
+ private int vida;
+ private ArrayList <Obstaculo> obstaculos;
+ private Image fondo=null;
+ private Image UFO=null;
+ private int animacion_UFO;
 
-    public Animacion(GraphicsContext lapiz,int size_x,int size_y) {
+
+    public Animacion(GraphicsContext lapiz,int size_x,int size_y,int num_obst) {
         this.lapiz = lapiz;
         this.carro = new Carro (0,150);
         this.mov_x=1;
         this.mov_y=1;
+        this.fondo=new Image("Imagenes/fondo.png");
         this.size_x=size_x;
         this.size_y=size_y;
+        this.obstaculos=new ArrayList <>();
+        for(int i=0;i<num_obst;i++){
+          this.obstaculos.add(new Obstaculo (i*100,i*100));
+                }
+        this.animacion_UFO=0;
     }
 
     @Override
     
     public void handle(long l) {
-      this.lapiz.clearRect(0, 0, this.size_x, this.size_y);
+      
+      this.lapiz.clearRect(0, 0, this.size_x, this.size_y);  
+      lapiz.drawImage(fondo, 0, 0);
+      if(animacion_ufo=<5){
+          this.UFO=new Image("Imagenes/ufo_"+animacion_ufo+".png");
+      }else{
+          animacion_ufo=0;
+      }
       lapiz.setFill(Color.RED);
       this.lapiz.fillRect(this.carro.getChasis().getX(), this.carro.getChasis().getY(),70,40);
       lapiz.setFill(Color.BLACK);
@@ -42,6 +66,28 @@ private Carro carro;
       this.mov_y=-(this.mov_y);
       }
       this.carro.mover(mov_x,mov_y);
+      this.lapiz.setFill(Color.WHITE);
+      this.lapiz.fillRect(size_x-100, size_y-20, 100, 20);
+      this.lapiz.setFill(Color.GREENYELLOW);
+      this.lapiz.fillRect(size_x-100, size_y-20, 100-vida, 20);
+      
+      this.lapiz.setFill(Color.BLUE);
+      
+      Shape carro= new Rectangle (this.carro.getChasis().getX(),this.carro.getChasis().getY()
+              ,70,40);
+      Shape [] obstaculos_shapes= new Rectangle [this.obstaculos.size()];
+      Shape [] intersecciones= new Shape[this.obstaculos.size()];
+      for(int i=0;i<this.obstaculos.size();i++){
+          this.lapiz.fillRect(this.obstaculos.get(i).getX(), this.obstaculos.get(i).getY(), 50, 50);
+          obstaculos_shapes[i]=new Rectangle (this.obstaculos.get(i).getX(), this.obstaculos.get(i).getY(), 50, 50);
+          intersecciones[i]=SVGPath.intersect(carro, obstaculos_shapes[i]);
+          if(intersecciones[i].getLayoutBounds().getWidth()!=-1&&this.obstaculos.get(i).getIsActivo()==true){
+              this.obstaculos.get(i).setIsActivo(false);
+              vida=(vida+5);
+          }
+      }
+      
+      
     }
     
 }

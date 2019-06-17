@@ -21,11 +21,13 @@ import javafx.stage.Stage;
 public class animacion_interfaz extends Application {
 private static int size_x;
 private static int size_y;
+private static int num_obst;
   public static void main(String[] args) {
       Scanner lectura=new Scanner(System.in);
-      System.out.println("Ingrese tamaño en x y y de el escenario");
+      System.out.println("Ingrese tamaño en x y y de el escenario. Ingrese numero de obstaculos");
        size_x=lectura.nextInt();
        size_y=lectura.nextInt();
+       num_obst=lectura.nextInt();
         Application.launch(args);
     }
 
@@ -40,7 +42,7 @@ private static int size_y;
        stage.setTitle("Escenario 1");
        stage.show();
        GraphicsContext lapiz=tablero.getGraphicsContext2D();
-       Animacion animacion1=new Animacion (lapiz,size_x,size_y);
+       Animacion animacion1=new Animacion (lapiz,size_x,size_y,num_obst);
        animacion1.start();
        stage.setScene(escena);
        stage.setTitle("Escenario 1");
