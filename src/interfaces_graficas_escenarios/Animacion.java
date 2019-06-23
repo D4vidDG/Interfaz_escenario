@@ -6,6 +6,8 @@
 package interfaces_graficas_escenarios;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -26,6 +28,7 @@ private Carro carro;
  private Image fondo=null;
  private Image UFO=null;
  private int animacion_UFO;
+ private int contador;
 
 
     public Animacion(GraphicsContext lapiz,int size_x,int size_y,int num_obst) {
@@ -33,7 +36,7 @@ private Carro carro;
         this.carro = new Carro (0,150);
         this.mov_x=1;
         this.mov_y=1;
-        this.fondo=new Image("Imagenes/fondo.png");
+        this.fondo=new Image("/Imagenes/fondo.png");
         this.size_x=size_x;
         this.size_y=size_y;
         this.obstaculos=new ArrayList <>();
@@ -46,19 +49,29 @@ private Carro carro;
     @Override
     
     public void handle(long l) {
+      //
       
       this.lapiz.clearRect(0, 0, this.size_x, this.size_y);  
       lapiz.drawImage(fondo, 0, 0);
-      if(animacion_ufo=<5){
-          this.UFO=new Image("Imagenes/ufo_"+animacion_ufo+".png");
+      if(this.contador%30==0){
+      if(this.animacion_UFO<5){
+          this.UFO=new Image("/Imagenes/ufo_"+this.animacion_UFO+".png");
+          this.animacion_UFO++;
+         
       }else{
-          animacion_ufo=0;
+          animacion_UFO=0;
+         
       }
+      }
+    
+      lapiz.drawImage(UFO, this.carro.getChasis().getX(), this.carro.getChasis().getY());
+       /*
       lapiz.setFill(Color.RED);
       this.lapiz.fillRect(this.carro.getChasis().getX(), this.carro.getChasis().getY(),70,40);
       lapiz.setFill(Color.BLACK);
       this.lapiz.fillOval(this.carro.getLlanta1().getX()+5,this.carro.getLlanta1().getY()+30,20,20);
       this.lapiz.fillOval(this.carro.getLlanta2().getX()+45,this.carro.getLlanta2().getY()+30,20,20);
+*/
       if((this.carro.getChasis().getX()+70)>this.size_x||(this.carro.getChasis().getX())<0){
       this.mov_x=-(this.mov_x);
       } 
@@ -86,8 +99,7 @@ private Carro carro;
               vida=(vida+5);
           }
       }
-      
-      
+    this.contador++;
     }
     
 }
